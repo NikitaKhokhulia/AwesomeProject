@@ -5,11 +5,9 @@ import {
   ScrollView,
   TextInput,
   TouchableOpacity,
-  Image,
   Keyboard,
 } from "react-native";
 import React, { useState } from "react";
-import { Ionicons } from "@expo/vector-icons";
 
 const initialState = {
   email: "",
