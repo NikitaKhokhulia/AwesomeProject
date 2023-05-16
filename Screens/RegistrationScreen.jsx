@@ -25,11 +25,13 @@ export const RegistrationScreen = ({
 }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [state, setState] = useState(initialState);
+
   const togglePassword = () => {
     setIsPasswordVisible((prev) => !prev);
   };
 
   const handleRegister = () => {
+    console.log("Регистрация:", state);
     setIsShowKeyboard(false);
     Keyboard.dismiss();
     setState(initialState);
@@ -38,8 +40,6 @@ export const RegistrationScreen = ({
   const handleLoginPress = () => {
     console.log("Нажата ссылка Войти");
   };
-
-  console.log(isShowKeyboard);
 
   return (
     <>

@@ -27,6 +27,7 @@ export const LoginScreen = ({
   };
 
   const handleRegister = () => {
+    console.log("Login", state);
     setIsShowKeyboard(false);
     Keyboard.dismiss();
     setState(initialState);
