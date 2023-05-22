@@ -22,7 +22,7 @@ const initialState = {
   password: "",
 };
 
-export const RegistrationScreen = ({ navigation }) => {
+export const RegistrationScreen = ({ navigation, setIsAuth }) => {
   const { isShowKeyboard, setIsShowKeyboard } = useContext(KeyboardContext);
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -33,6 +33,7 @@ export const RegistrationScreen = ({ navigation }) => {
 
   const handleRegister = () => {
     console.log("Регистрация:", state);
+    setIsAuth(true);
     setIsShowKeyboard(false);
     Keyboard.dismiss();
     setState(initialState);

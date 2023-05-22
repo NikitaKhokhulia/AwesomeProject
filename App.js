@@ -1,6 +1,6 @@
 //
 import "react-native-gesture-handler";
-import React from "react";
+import React, { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { Home } from "./Home";
 
@@ -9,7 +9,7 @@ import { useFonts } from "expo-font";
 import { KeyboardProvider } from "./Components/KeyboardContext";
 
 export default function App() {
-  const routing = Home(true);
+  const [isAuth, setIsAuth] = useState(false);
   const [fontsLoaded] = useFonts({
     "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
     "Roboto-Medium": require("./assets/fonts/Roboto-Medium.ttf"),
@@ -21,7 +21,9 @@ export default function App() {
 
   return (
     <KeyboardProvider>
-      <NavigationContainer>{routing}</NavigationContainer>
+      <NavigationContainer>
+        <Home isAuth={isAuth} setIsAuth={setIsAuth} />
+      </NavigationContainer>
     </KeyboardProvider>
   );
 }

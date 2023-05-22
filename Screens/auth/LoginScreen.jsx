@@ -11,6 +11,7 @@ import {
   Platform,
   TouchableNativeFeedback,
 } from "react-native";
+// import { useNavigation } from "@react-navigation/native";
 import React, { useState, useContext } from "react";
 import { KeyboardContext } from "../../Components/KeyboardContext";
 
@@ -19,7 +20,7 @@ const initialState = {
   password: "",
 };
 
-export const LoginScreen = ({ navigation }) => {
+export const LoginScreen = ({ navigation, setIsAuth }) => {
   const { isShowKeyboard, setIsShowKeyboard } = useContext(KeyboardContext);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [state, setState] = useState(initialState);
@@ -38,6 +39,7 @@ export const LoginScreen = ({ navigation }) => {
 
   const handleRegister = () => {
     console.log("Login", state);
+    setIsAuth(true);
     setIsShowKeyboard(false);
     Keyboard.dismiss();
     setState(initialState);
@@ -46,6 +48,8 @@ export const LoginScreen = ({ navigation }) => {
   const handleLoginPress = () => {
     navigation.navigate("Registration");
   };
+
+  // const navigation = useNavigation();
 
   return (
     <KeyboardAvoidingView

@@ -20,20 +20,16 @@ import { View, StyleSheet } from "react-native";
 const AuthStack = createStackNavigator();
 const MainTab = createBottomTabNavigator();
 
-export const Home = (isAuth) => {
+export const Home = ({ isAuth, setIsAuth }) => {
   if (!isAuth) {
     return (
       <AuthStack.Navigator>
-        <AuthStack.Screen
-          options={{ headerShown: false }}
-          name="Login"
-          component={LoginScreen}
-        />
-        <AuthStack.Screen
-          options={{ headerShown: false }}
-          name="Registration"
-          component={RegistrationScreen}
-        />
+        <AuthStack.Screen options={{ headerShown: false }} name="Login">
+          {(props) => <LoginScreen {...props} setIsAuth={setIsAuth} />}
+        </AuthStack.Screen>
+        <AuthStack.Screen options={{ headerShown: false }} name="Registration">
+          {(props) => <RegistrationScreen {...props} setIsAuth={setIsAuth} />}
+        </AuthStack.Screen>
       </AuthStack.Navigator>
     );
   }
@@ -56,7 +52,7 @@ export const Home = (isAuth) => {
           ),
           tabBarItemStyle: { left: 40 },
         }}
-        name="Публикации"
+        name="Posts"
         component={PostsScreen}
       />
       <MainTab.Screen
@@ -68,7 +64,7 @@ export const Home = (isAuth) => {
             </View>
           ),
         }}
-        name="Создать публикацию"
+        name="CreatePosts"
         component={CreatePostsScreen}
       />
       <MainTab.Screen
@@ -78,7 +74,7 @@ export const Home = (isAuth) => {
           ),
           tabBarItemStyle: { right: 40 },
         }}
-        name="Профайл"
+        name="Profile"
         component={ProfileScreen}
       />
     </MainTab.Navigator>
