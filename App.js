@@ -1,77 +1,29 @@
 //
-import {
-  StyleSheet,
-  Text,
-  View,
-  ImageBackground,
-  KeyboardAvoidingView,
-  Platform,
-  Keyboard,
-  TouchableNativeFeedback,
-} from "react-native";
-import { RegistrationScreen } from "./Screens/RegistrationScreen";
-import { LoginScreen } from "./Screens/LoginScreen";
-import { useState } from "react";
+import "react-native-gesture-handler";
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { Home } from "./Home";
+
+import { StyleSheet } from "react-native";
 import { useFonts } from "expo-font";
+import { KeyboardProvider } from "./Components/KeyboardContext";
 
 export default function App() {
-  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
-
+  const routing = Home(true);
   const [fontsLoaded] = useFonts({
     "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
     "Roboto-Medium": require("./assets/fonts/Roboto-Medium.ttf"),
   });
-
-  const handleInputFocus = () => {
-    setIsShowKeyboard(true);
-  };
-
-  const handleInputBlur = () => {
-    setIsShowKeyboard(false);
-  };
 
   if (!fontsLoaded) {
     return null;
   }
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      enabled
-    >
-      <TouchableNativeFeedback onPress={() => Keyboard.dismiss()}>
-        <ImageBackground
-          style={styles.imageBg}
-          source={require("./assets/BG.jpg")}
-        >
-          <RegistrationScreen
-            isShowKeyboard={isShowKeyboard}
-            setIsShowKeyboard={setIsShowKeyboard}
-            handleInputFocus={handleInputFocus}
-            handleInputBlur={handleInputBlur}
-          />
-          {/* <LoginScreen
-            isShowKeyboard={isShowKeyboard}
-            setIsShowKeyboard={setIsShowKeyboard}
-            handleInputFocus={handleInputFocus}
-            handleInputBlur={handleInputBlur}
-          /> */}
-        </ImageBackground>
-      </TouchableNativeFeedback>
-    </KeyboardAvoidingView>
+    <KeyboardProvider>
+      <NavigationContainer>{routing}</NavigationContainer>
+    </KeyboardProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    fontFamily: "Roboto-Regular",
-    fontSize: 16,
-  },
-  imageBg: {
-    position: "relative",
-    flex: 1,
-  },
-});
+const styles = StyleSheet.create({});
