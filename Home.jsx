@@ -52,7 +52,7 @@ export const Home = ({ isAuth, setIsAuth }) => {
           ),
           tabBarItemStyle: { left: 40 },
         }}
-        name="Posts"
+        name="Публикации"
         component={PostsScreen}
       />
       <MainTab.Screen
@@ -64,7 +64,7 @@ export const Home = ({ isAuth, setIsAuth }) => {
             </View>
           ),
         }}
-        name="CreatePosts"
+        name="Создать публикацию"
         component={CreatePostsScreen}
       />
       <MainTab.Screen
