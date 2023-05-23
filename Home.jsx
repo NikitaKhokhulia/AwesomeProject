@@ -42,6 +42,7 @@ export const Home = ({ isAuth, setIsAuth }) => {
     >
       <MainTab.Screen
         options={{
+          title: "Публикации",
           tabBarIcon: ({}) => (
             <MaterialCommunityIcons
               name="vector-square"
@@ -52,23 +53,24 @@ export const Home = ({ isAuth, setIsAuth }) => {
           ),
           tabBarItemStyle: { left: 40 },
         }}
-        name="Публикации"
+        name="Posts"
         component={PostsScreen}
       />
       <MainTab.Screen
         options={{
-          tabBarItemStyle: {},
+          title: "Создать публикацию",
           tabBarIcon: ({}) => (
             <View style={styles.createPostIcon}>
               <AntDesign name="plus" size={18} color="#ffffff" />
             </View>
           ),
         }}
-        name="Создать публикацию"
+        name="CreatePosts"
         component={CreatePostsScreen}
       />
       <MainTab.Screen
         options={{
+          title: "",
           tabBarIcon: ({}) => (
             <Ionicons name="person-outline" size={24} color="black" />
           ),
