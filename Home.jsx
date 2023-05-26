@@ -8,6 +8,7 @@ import { LoginScreen } from "./Screens/auth/LoginScreen";
 import { PostsScreen } from "./Screens/mainScreen/PostsScreen";
 import { CreatePostsScreen } from "./Screens/mainScreen/CreatePostsScreen";
 import { ProfileScreen } from "./Screens/mainScreen/ProfileScreen";
+import { MapScreen } from "./Screens/nestedScreens/MapScreen";
 
 import {
   MaterialCommunityIcons,
@@ -79,6 +80,16 @@ export const Home = ({ isAuth, setIsAuth }) => {
         name="Profile"
         component={ProfileScreen}
       />
+      {/* <MainTab.Screen
+        options={{
+          title: "",
+          tabBarIcon: ({}) => (
+            <Ionicons name="person-outline" size={24} color="black" />
+          ),
+        }}
+        name="Map"
+        component={MapScreen}
+      /> */}
     </MainTab.Navigator>
   );
 };

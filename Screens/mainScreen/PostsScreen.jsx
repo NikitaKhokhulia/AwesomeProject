@@ -1,41 +1,21 @@
-import React, { useLayoutEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import React from "react";
+import { moduleName } from "react-native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { DefaultScreenPosts } from "../nestedScreens/DefaultScreenPosts";
+import { CommentsScreen } from "../nestedScreens/CommentsScreen";
+import { MapScreen } from "../nestedScreens/MapScreen";
 
-export const PostsScreen = ({ navigation }) => {
-  const handleLogout = () => {
-    // Ваш код для выполнения выхода (logout)
-  };
+const NestedScreen = createStackNavigator();
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <View style={styles.logoutIconContainer}>
-          <MaterialCommunityIcons
-            name="logout"
-            size={24}
-            color="#BDBDBD"
-            onPress={handleLogout}
-          />
-        </View>
-      ),
-    });
-  }, [navigation]);
-
+export const PostsScreen = () => {
   return (
-    <View style={styles.container}>
-      <Text>PostsScreen</Text>
-    </View>
+    <NestedScreen.Navigator>
+      <NestedScreen.Screen
+        name="DefaultScreen"
+        component={DefaultScreenPosts}
+      />
+      <NestedScreen.Screen name="Comments" component={CommentsScreen} />
+      <NestedScreen.Screen name="Map" component={MapScreen} />
+    </NestedScreen.Navigator>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  logoutIconContainer: {
-    marginRight: 20,
-  },
-});
