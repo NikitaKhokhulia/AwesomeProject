@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import {
   View,
   StyleSheet,
@@ -10,10 +11,21 @@ import {
 import { Camera } from "expo-camera";
 import { Ionicons } from "@expo/vector-icons";
 import * as Location from "expo-location";
+import { storage, db } from "../../firebase/config";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { collection, addDoc } from "firebase/firestore";
 
 export const CreatePostsScreen = ({ navigation }) => {
   const [camera, setCamera] = useState(null);
   const [photo, setPhoto] = useState(null);
+  const [namePost, setNamePost] = useState("");
+  const [location, setLocation] = useState(null);
+
+  const { userId, login } = useSelector((state) => state.auth);
+
+  // useEffect(() => {
+
+  // }, []);
 
   const takePhoto = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -21,16 +33,51 @@ export const CreatePostsScreen = ({ navigation }) => {
       setErrorMsg("Permission to access location was denied");
       return;
     }
+    let location = await Location.getCurrentPositionAsync({});
+    setLocation(location);
+
+    console.log("location", location);
+    console.log("namePost", namePost);
 
     const photo = await camera.takePictureAsync();
-    const location = await Location.getCurrentPositionAsync();
-    console.log("location", location.coords.latitude);
-    console.log("location", location.coords.longitude);
+
+    // console.log("latitude", location.coords.latitude);
+    // console.log("longitude", location.coords.longitude);
     setPhoto(photo.uri);
   };
 
   const sendPhoto = () => {
+    uploadPostToServer();
     navigation.navigate("DefaultScreen", { photo });
+  };
+
+  const uploadPostToServer = async () => {
+    const photo = await uploadPhotoToServer();
+    const createPost = await addDoc(collection(db, "posts"), {
+      photo,
+      namePost,
+      location: location.coords,
+      userId,
+      login,
+    });
+    console.log("Document written with ID: ", createPost.id);
+  };
+
+  const uploadPhotoToServer = async () => {
+    const response = await fetch(photo);
+    const file = await response.blob();
+
+    const uniquePostId = Date.now().toString();
+
+    const data = ref(storage, `postImage/${uniquePostId}`);
+    const upload = await uploadBytes(data, file);
+    const download = await getDownloadURL(data, file);
+    console.log("download", download);
+
+    // console.log("Uploaded a blob or file!", upload);
+    // console.log("data", data);
+
+    return download;
   };
 
   return (
@@ -71,6 +118,7 @@ export const CreatePostsScreen = ({ navigation }) => {
         <TextInput
           style={{ ...styles.input, marginBottom: 16 }}
           placeholder="Назва..."
+          onChangeText={setNamePost}
         ></TextInput>
         <TextInput
           style={{ ...styles.input, marginBottom: 32 }}

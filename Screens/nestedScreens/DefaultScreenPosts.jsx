@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -8,37 +8,15 @@ import {
   Image,
   Button,
 } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { authSingOutUser } from "../../Redux/auth/authOperations";
 
 export const DefaultScreenPosts = ({ navigation, route }) => {
   const [posts, setPosts] = useState([]);
-
-  const handleLogout = () => {
-    console.log("выход");
-    authSingOutUser();
-  };
 
   useEffect(() => {
     if (route.params) {
       setPosts((prevState) => [...prevState, route.params]);
     }
   }, [route.params]);
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <View style={styles.logoutIconContainer}>
-          <MaterialCommunityIcons
-            name="logout"
-            size={24}
-            color="#BDBDBD"
-            onPress={handleLogout}
-          />
-        </View>
-      ),
-    });
-  }, [navigation]);
 
   return (
     <View style={styles.container}>
@@ -70,8 +48,5 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingRight: 16,
     paddingLeft: 16,
-  },
-  logoutIconContainer: {
-    marginRight: 20,
   },
 });
