@@ -12,6 +12,9 @@ import {
   TouchableNativeFeedback,
 } from "react-native";
 
+import { useDispatch } from "react-redux";
+import { authSingInUser } from "../../Redux/auth/authOperations";
+
 import React, { useState, useContext } from "react";
 import { KeyboardContext } from "../../Components/KeyboardContext";
 
@@ -25,6 +28,8 @@ export const LoginScreen = ({ navigation, setIsAuth }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [state, setState] = useState(initialState);
 
+  const dispatch = useDispatch();
+
   const togglePassword = () => {
     setIsPasswordVisible((prev) => !prev);
   };
@@ -37,9 +42,9 @@ export const LoginScreen = ({ navigation, setIsAuth }) => {
     setIsShowKeyboard(false);
   };
 
-  const handleRegister = () => {
+  const handleLogin = () => {
+    dispatch(authSingInUser(state));
     console.log("Login", state);
-    setIsAuth(true);
     setIsShowKeyboard(false);
     Keyboard.dismiss();
     setState(initialState);
@@ -48,8 +53,6 @@ export const LoginScreen = ({ navigation, setIsAuth }) => {
   const handleLoginPress = () => {
     navigation.navigate("Registration");
   };
-
-  // const navigation = useNavigation();
 
   return (
     <KeyboardAvoidingView
@@ -108,7 +111,7 @@ export const LoginScreen = ({ navigation, setIsAuth }) => {
             <TouchableOpacity
               activeOpacity={0.8}
               style={styles.btn}
-              onPress={handleRegister}
+              onPress={handleLogin}
             >
               <Text style={{ color: "#fff" }}>Войти</Text>
             </TouchableOpacity>

@@ -16,6 +16,9 @@ import React, { useState, useContext } from "react";
 import { KeyboardContext } from "../../Components/KeyboardContext";
 import { Ionicons } from "@expo/vector-icons";
 
+import { useDispatch } from "react-redux";
+import { authSingUpUser } from "../../Redux/auth/authOperations";
+
 const initialState = {
   login: "",
   email: "",
@@ -27,13 +30,17 @@ export const RegistrationScreen = ({ navigation, setIsAuth }) => {
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [state, setState] = useState(initialState);
+
+  const dispatch = useDispatch();
+
   const togglePassword = () => {
     setIsPasswordVisible((prev) => !prev);
   };
 
   const handleRegister = () => {
     console.log("Регистрация:", state);
-    setIsAuth(true);
+    dispatch(authSingUpUser(state));
+    // setIsAuth(true);
     setIsShowKeyboard(false);
     Keyboard.dismiss();
     setState(initialState);

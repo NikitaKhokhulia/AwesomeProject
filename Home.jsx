@@ -21,15 +21,15 @@ import { View, StyleSheet } from "react-native";
 const AuthStack = createStackNavigator();
 const MainTab = createBottomTabNavigator();
 
-export const Home = ({ isAuth, setIsAuth }) => {
-  if (!isAuth) {
+export const Home = ({ user }) => {
+  if (!user) {
     return (
       <AuthStack.Navigator>
         <AuthStack.Screen options={{ headerShown: false }} name="Login">
-          {(props) => <LoginScreen {...props} setIsAuth={setIsAuth} />}
+          {(props) => <LoginScreen {...props} />}
         </AuthStack.Screen>
         <AuthStack.Screen options={{ headerShown: false }} name="Registration">
-          {(props) => <RegistrationScreen {...props} setIsAuth={setIsAuth} />}
+          {(props) => <RegistrationScreen {...props} />}
         </AuthStack.Screen>
       </AuthStack.Navigator>
     );

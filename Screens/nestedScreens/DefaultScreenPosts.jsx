@@ -9,12 +9,14 @@ import {
   Button,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { authSingOutUser } from "../../Redux/auth/authOperations";
 
 export const DefaultScreenPosts = ({ navigation, route }) => {
   const [posts, setPosts] = useState([]);
 
   const handleLogout = () => {
     console.log("выход");
+    authSingOutUser();
   };
 
   useEffect(() => {
