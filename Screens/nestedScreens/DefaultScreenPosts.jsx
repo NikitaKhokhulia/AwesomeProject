@@ -9,14 +9,27 @@ import {
   Button,
 } from "react-native";
 
+import { db } from "../../firebase/config";
+import { collection, getDocs } from "firebase/firestore";
+
 export const DefaultScreenPosts = ({ navigation, route }) => {
   const [posts, setPosts] = useState([]);
 
+  const getAllPost = async () => {
+    const snapshot = await getDocs(collection(db, "posts"));
+    setPosts(
+      snapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }))
+    );
+  };
+
+  console.log(posts);
+
   useEffect(() => {
-    if (route.params) {
-      setPosts((prevState) => [...prevState, route.params]);
-    }
-  }, [route.params]);
+    getAllPost();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -31,13 +44,25 @@ export const DefaultScreenPosts = ({ navigation, route }) => {
             }}
           >
             <Image source={{ uri: item.photo }} style={{ height: 240 }} />
+            <View>
+              <Text>{item.namePost}</Text>
+            </View>
+            <View>
+              <Button
+                title="go to map"
+                onPress={() =>
+                  navigation.navigate("Map", { location: item.location })
+                }
+              />
+              <Button
+                title="go to comments"
+                onPress={() =>
+                  navigation.navigate("Comments", { postId: item.id })
+                }
+              />
+            </View>
           </View>
         )}
-      />
-      <Button title="go to map" onPress={() => navigation.navigate("Map")} />
-      <Button
-        title="go to comments"
-        onPress={() => navigation.navigate("Comments")}
       />
     </View>
   );

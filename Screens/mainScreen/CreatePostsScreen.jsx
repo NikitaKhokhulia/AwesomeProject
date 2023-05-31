@@ -9,6 +9,7 @@ import {
   TextInput,
 } from "react-native";
 import { Camera } from "expo-camera";
+
 import { Ionicons } from "@expo/vector-icons";
 import * as Location from "expo-location";
 import { storage, db } from "../../firebase/config";
@@ -20,12 +21,16 @@ export const CreatePostsScreen = ({ navigation }) => {
   const [photo, setPhoto] = useState(null);
   const [namePost, setNamePost] = useState("");
   const [location, setLocation] = useState(null);
+  const [hasPermission, setHasPermission] = useState(null);
 
   const { userId, login } = useSelector((state) => state.auth);
 
-  // useEffect(() => {
-
-  // }, []);
+  useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      setHasPermission(status === "granted");
+    })();
+  }, []);
 
   const takePhoto = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -33,6 +38,7 @@ export const CreatePostsScreen = ({ navigation }) => {
       setErrorMsg("Permission to access location was denied");
       return;
     }
+
     let location = await Location.getCurrentPositionAsync({});
     setLocation(location);
 
@@ -48,7 +54,7 @@ export const CreatePostsScreen = ({ navigation }) => {
 
   const sendPhoto = () => {
     uploadPostToServer();
-    navigation.navigate("DefaultScreen", { photo });
+    navigation.navigate("DefaultScreen");
   };
 
   const uploadPostToServer = async () => {
@@ -79,6 +85,14 @@ export const CreatePostsScreen = ({ navigation }) => {
 
     return download;
   };
+
+  if (hasPermission === null) {
+    return <View />;
+  }
+
+  if (hasPermission === false) {
+    return <Text>No access to camera</Text>;
+  }
 
   return (
     <View style={styles.container}>
