@@ -14,15 +14,19 @@ export const authSingUpUser =
   ({ email, password, login }) =>
   async (dispatch, getState) => {
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
 
-      const user = auth.currentUser;
+      const user = userCredential.user;
 
-      await updateProfile(auth, user, { displayName: login });
+      await updateProfile(user, { displayName: login });
 
-      const { displayName, uid } = auth.currentUser;
+      const { displayName, uid } = user;
 
-      console.log("uid, displayName", uid, displayName);
+      console.log("user", user);
 
       const userUpdateProfile = {
         login: displayName,
