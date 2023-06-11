@@ -16,11 +16,11 @@ export const authSingUpUser =
     try {
       await createUserWithEmailAndPassword(auth, email, password);
 
-      const user = await auth.currentUser;
+      const user = auth.currentUser;
 
       await updateProfile(auth, user, { displayName: login });
 
-      const { displayName, uid } = await auth.currentUser;
+      const { displayName, uid } = auth.currentUser;
 
       console.log("uid, displayName", uid, displayName);
 

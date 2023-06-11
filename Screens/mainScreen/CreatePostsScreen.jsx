@@ -47,8 +47,6 @@ export const CreatePostsScreen = ({ navigation }) => {
 
     const photo = await camera.takePictureAsync();
 
-    // console.log("latitude", location.coords.latitude);
-    // console.log("longitude", location.coords.longitude);
     setPhoto(photo.uri);
   };
 
@@ -79,9 +77,6 @@ export const CreatePostsScreen = ({ navigation }) => {
     const upload = await uploadBytes(data, file);
     const download = await getDownloadURL(data, file);
     console.log("download", download);
-
-    // console.log("Uploaded a blob or file!", upload);
-    // console.log("data", data);
 
     return download;
   };

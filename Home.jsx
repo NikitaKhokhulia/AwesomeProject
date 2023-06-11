@@ -80,16 +80,6 @@ export const Home = ({ user }) => {
         name="Profile"
         component={ProfileScreen}
       />
-      {/* <MainTab.Screen
-        options={{
-          title: "",
-          tabBarIcon: ({}) => (
-            <Ionicons name="person-outline" size={24} color="black" />
-          ),
-        }}
-        name="Map"
-        component={MapScreen}
-      /> */}
     </MainTab.Navigator>
   );
 };

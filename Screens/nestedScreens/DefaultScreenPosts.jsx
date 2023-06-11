@@ -11,21 +11,33 @@ import {
 
 import { db } from "../../firebase/config";
 import { collection, getDocs } from "firebase/firestore";
+import { useSelector } from "react-redux";
+import { FontAwesome } from "@expo/vector-icons";
 
-export const DefaultScreenPosts = ({ navigation, route }) => {
+export const DefaultScreenPosts = ({ navigation }) => {
   const [posts, setPosts] = useState([]);
+  const { login, email } = useSelector((state) => state.auth);
 
   const getAllPost = async () => {
     const snapshot = await getDocs(collection(db, "posts"));
-    setPosts(
-      snapshot.docs.map((doc) => ({
+    const fetchedPosts = [];
+
+    for (const doc of snapshot.docs) {
+      const commentsSnapshot = await getDocs(
+        collection(db, `posts/${doc.id}/comments`)
+      );
+      const post = {
         ...doc.data(),
         id: doc.id,
-      }))
-    );
+        comments: commentsSnapshot.size,
+      };
+      fetchedPosts.push(post);
+    }
+
+    setPosts(fetchedPosts);
   };
 
-  console.log(posts);
+  console.log("posts", posts);
 
   useEffect(() => {
     getAllPost();
@@ -43,8 +55,11 @@ export const DefaultScreenPosts = ({ navigation, route }) => {
               justifyContent: "center",
             }}
           >
-            <Image source={{ uri: item.photo }} style={{ height: 240 }} />
-            <View>
+            <Image
+              source={{ uri: item.photo }}
+              style={{ height: 240, marginBottom: 10 }}
+            />
+            <View style={styles.nameContainer}>
               <Text>{item.namePost}</Text>
             </View>
             <View>
@@ -54,12 +69,19 @@ export const DefaultScreenPosts = ({ navigation, route }) => {
                   navigation.navigate("Map", { location: item.location })
                 }
               />
-              <Button
-                title="go to comments"
+              <TouchableOpacity
+                style={styles.commentContainer}
                 onPress={() =>
                   navigation.navigate("Comments", { postId: item.id })
                 }
-              />
+              >
+                <FontAwesome
+                  name={item.comments ? "comment" : "comment-o"}
+                  size={24}
+                  color="#FF6C00"
+                />
+                <Text style={styles.commentCount}>{item.comments}</Text>
+              </TouchableOpacity>
             </View>
           </View>
         )}
@@ -73,5 +95,8 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingRight: 16,
     paddingLeft: 16,
+  },
+  nameContainer: {
+    marginBottom: 10,
   },
 });

@@ -35,6 +35,7 @@ export const PostsScreen = ({ navigation }) => {
   return (
     <NestedScreen.Navigator>
       <NestedScreen.Screen
+        options={{ headerShown: false }}
         name="DefaultScreen"
         component={DefaultScreenPosts}
       />
