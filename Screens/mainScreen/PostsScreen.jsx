@@ -1,7 +1,10 @@
 import React, { useLayoutEffect } from "react";
 import { useDispatch } from "react-redux";
 import { View, StyleSheet } from "react-native";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  TransitionPresets,
+} from "@react-navigation/stack";
 import { DefaultScreenPosts } from "../nestedScreens/DefaultScreenPosts";
 import { CommentsScreen } from "../nestedScreens/CommentsScreen";
 import { MapScreen } from "../nestedScreens/MapScreen";
@@ -32,14 +35,23 @@ export const PostsScreen = ({ navigation }) => {
       ),
     });
   }, [navigation]);
+
   return (
-    <NestedScreen.Navigator>
+    <NestedScreen.Navigator
+      screenOptions={{
+        ...TransitionPresets.SlideFromRightIOS, // Пример анимации перехода
+      }}
+    >
       <NestedScreen.Screen
-        options={{ headerShown: false }}
+        options={{ headerShown: true, title: "Публікації" }}
         name="DefaultScreen"
         component={DefaultScreenPosts}
       />
-      <NestedScreen.Screen name="Comments" component={CommentsScreen} />
+      <NestedScreen.Screen
+        name="Comments"
+        component={CommentsScreen}
+        options={{ title: "Коментарі" }}
+      />
       <NestedScreen.Screen name="Map" component={MapScreen} />
     </NestedScreen.Navigator>
   );

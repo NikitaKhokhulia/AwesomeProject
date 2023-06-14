@@ -108,6 +108,10 @@ export const CommentsScreen = ({ route }) => {
   );
 };
 
+CommentsScreen.navigationOptions = {
+  headerTitle: "Comments", // Заголовок "Comments"
+};
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
