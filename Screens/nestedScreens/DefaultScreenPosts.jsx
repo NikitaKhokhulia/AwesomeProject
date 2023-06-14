@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  useLayoutEffect,
+} from "react";
+import { useDispatch } from "react-redux";
 import {
   View,
   Text,
@@ -14,10 +20,14 @@ import { db } from "../../firebase/config";
 import { collection, getDocs } from "firebase/firestore";
 import { useSelector } from "react-redux";
 import { FontAwesome } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { authSingOutUser } from "../../Redux/auth/authOperations";
 
 export const DefaultScreenPosts = ({ navigation }) => {
   const [posts, setPosts] = useState([]);
   const { login, email } = useSelector((state) => state.auth);
+
+  const dispatch = useDispatch();
 
   const getAllPost = async () => {
     const snapshot = await getDocs(collection(db, "posts"));
@@ -50,6 +60,26 @@ export const DefaultScreenPosts = ({ navigation }) => {
     }, [])
   );
 
+  const handleLogout = () => {
+    console.log("выход");
+    dispatch(authSingOutUser());
+  };
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <View style={styles.logoutIconContainer}>
+          <MaterialCommunityIcons
+            name="logout"
+            size={24}
+            color="#BDBDBD"
+            onPress={handleLogout}
+          />
+        </View>
+      ),
+    });
+  }, [navigation]);
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -64,7 +94,7 @@ export const DefaultScreenPosts = ({ navigation }) => {
           >
             <Image
               source={{ uri: item.photo }}
-              style={{ height: 240, marginBottom: 10 }}
+              style={{ height: 240, marginBottom: 10, borderRadius: 8 }}
             />
             <View style={styles.nameContainer}>
               <Text>{item.namePost}</Text>
@@ -108,5 +138,8 @@ const styles = StyleSheet.create({
   },
   nameContainer: {
     marginBottom: 10,
+  },
+  logoutIconContainer: {
+    marginRight: 20,
   },
 });

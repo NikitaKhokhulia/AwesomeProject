@@ -115,7 +115,8 @@ CommentsScreen.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "flex-end",
+    paddingRight: 16,
+    paddingLeft: 16,
   },
   input: {
     borderBottomWidth: 1,
