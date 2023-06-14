@@ -43,7 +43,7 @@ export const Home = ({ user }) => {
     >
       <MainTab.Screen
         options={{
-          title: "Публикации",
+          title: "Публікації",
           tabBarIcon: ({}) => (
             <MaterialCommunityIcons
               name="vector-square"

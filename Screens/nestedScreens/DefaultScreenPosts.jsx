@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   Image,
   Button,
 } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
 
 import { db } from "../../firebase/config";
 import { collection, getDocs } from "firebase/firestore";
@@ -43,6 +44,12 @@ export const DefaultScreenPosts = ({ navigation }) => {
     getAllPost();
   }, []);
 
+  useFocusEffect(
+    useCallback(() => {
+      getAllPost();
+    }, [])
+  );
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -72,7 +79,10 @@ export const DefaultScreenPosts = ({ navigation }) => {
               <TouchableOpacity
                 style={styles.commentContainer}
                 onPress={() =>
-                  navigation.navigate("Comments", { postId: item.id })
+                  navigation.navigate("Comments", {
+                    postId: item.id,
+                    photo: item.photo,
+                  })
                 }
               >
                 <FontAwesome

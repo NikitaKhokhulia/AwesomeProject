@@ -6,14 +6,15 @@ import {
   TextInput,
   TouchableOpacity,
   FlatList,
+  Image,
 } from "react-native";
 
 import { useSelector } from "react-redux";
 import { db } from "../../firebase/config";
-import { collection, doc, addDoc, getDocs, getDoc } from "firebase/firestore";
+import { collection, doc, addDoc, getDocs } from "firebase/firestore";
 
 export const CommentsScreen = ({ route }) => {
-  const { postId } = route.params;
+  const { postId, photo } = route.params;
   const [comment, setComment] = useState("");
   const [allComments, setAllComments] = useState([]);
   const { login } = useSelector((state) => state.auth);
@@ -72,6 +73,11 @@ export const CommentsScreen = ({ route }) => {
 
   return (
     <View style={styles.container}>
+      <Image
+        source={{ uri: photo }}
+        style={{ height: 240, marginBottom: 10 }}
+      />
+
       <FlatList
         data={allComments}
         renderItem={({ item }) => (
