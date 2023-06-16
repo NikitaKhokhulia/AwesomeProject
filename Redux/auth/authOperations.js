@@ -8,7 +8,8 @@ import {
 } from "firebase/auth";
 import { authSlice } from "./authReducer";
 
-const { updateUserProfile, authStateChange, authSingOut } = authSlice.actions;
+const { updateUserProfile, authStateChange, authSingOut, setSelectedAvatar } =
+  authSlice.actions;
 
 export const authSingUpUser =
   ({ email, password, login }) =>
@@ -32,6 +33,10 @@ export const authSingUpUser =
         login: displayName,
         userId: uid,
       };
+
+      if (photoURL) {
+        dispatch(setAvatar({ avatar: photoURL }));
+      }
 
       dispatch(updateUserProfile(userUpdateProfile));
     } catch (error) {
@@ -68,3 +73,8 @@ export const authStateChangeUser = () => async (dispatch, getState) => {
     }
   });
 };
+
+export const setSelectedAvatarUser =
+  (selectedAvatar) => async (dispatch, getState) => {
+    dispatch(setSelectedAvatar({ selectedAvatar }));
+  };
