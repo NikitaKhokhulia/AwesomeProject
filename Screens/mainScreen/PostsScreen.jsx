@@ -33,8 +33,4 @@ export const PostsScreen = ({}) => {
   );
 };
 
-const styles = StyleSheet.create({
-  logoutIconContainer: {
-    marginRight: 20,
-  },
-});
+const styles = StyleSheet.create({});

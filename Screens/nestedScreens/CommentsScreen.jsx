@@ -75,7 +75,12 @@ export const CommentsScreen = ({ route }) => {
     <View style={styles.container}>
       <Image
         source={{ uri: photo }}
-        style={{ height: 240, marginBottom: 10 }}
+        style={{
+          height: 240,
+          marginBottom: 32,
+          borderRadius: 8,
+          marginTop: 32,
+        }}
       />
 
       <FlatList
@@ -108,10 +113,6 @@ export const CommentsScreen = ({ route }) => {
   );
 };
 
-CommentsScreen.navigationOptions = {
-  headerTitle: "Comments", // Заголовок "Comments"
-};
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -134,41 +135,3 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
 });
-
-// import React from "react";
-// import {
-//   View,
-//   Text,
-//   StyleSheet,
-//   TextInput,
-//   TouchableOpacity,
-// } from "react-native";
-
-// export const CommentsScreen = () => {
-//   return (
-//     <View style={styles.container}>
-//       <View>
-//         <TextInput
-//           style={{ ...styles.input, marginBottom: 16 }}
-//           placeholder="Назва..."
-//           onChangeText={setNamePost}
-//         ></TextInput>
-//         <TouchableOpacity
-//           activeOpacity={0.8}
-//           style={styles.btn}
-//           onPress={sendPhoto}
-//         >
-//           <Text style={{ color: "#fff" }}>Опубліковати</Text>
-//         </TouchableOpacity>
-//       </View>
-//     </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     justifyContent: "center",
-//     alignItems: "center",
-//   },
-// });
