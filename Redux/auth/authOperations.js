@@ -12,7 +12,7 @@ const { updateUserProfile, authStateChange, authSingOut, setSelectedAvatar } =
   authSlice.actions;
 
 export const authSingUpUser =
-  ({ email, password, login }) =>
+  ({ email, password, login, photoURL }) =>
   async (dispatch, getState) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -35,7 +35,7 @@ export const authSingUpUser =
       };
 
       if (photoURL) {
-        dispatch(setAvatar({ avatar: photoURL }));
+        dispatch(setSelectedAvatar(photoURL));
       }
 
       dispatch(updateUserProfile(userUpdateProfile));
