@@ -12,6 +12,7 @@ import {
 import { useSelector } from "react-redux";
 import { db } from "../../firebase/config";
 import { collection, doc, addDoc, getDocs } from "firebase/firestore";
+import { Ionicons } from "@expo/vector-icons";
 
 export const CommentsScreen = ({ route }) => {
   const { postId, photo } = route.params;
@@ -86,27 +87,48 @@ export const CommentsScreen = ({ route }) => {
       <FlatList
         data={allComments}
         renderItem={({ item }) => (
-          <View>
-            <Text>{item.login}</Text>
-            <Text>{item.comment}</Text>
-            <Text>{item.timestamp}</Text>
+          <View style={{ marginBottom: 24 }}>
+            <Text style={{ marginBottom: 10, color: "#FF6C00", fontSize: 16 }}>
+              {item.login}
+            </Text>
+            <View style={styles.textContainer}>
+              <Text style={{ fontSize: 18, fontFamily: "Roboto-Regular" }}>
+                {item.comment}
+              </Text>
+              <Text style={{ fontSize: 10, color: "#BDBDBD" }}>
+                {item.timestamp}
+              </Text>
+            </View>
           </View>
         )}
         keyExtractor={(item, index) => index.toString()}
       />
-      <View>
+      <View
+        style={{
+          position: "relative",
+          backgroundColor: "rgba(0, 0, 0, 0.03)",
+          borderRadius: 100,
+          marginBottom: 16,
+          justifyContent: "center",
+        }}
+      >
         <TextInput
-          style={{ ...styles.input, marginBottom: 16 }}
-          placeholder="Назва..."
+          style={{
+            ...styles.input,
+            borderBottomWidth: 0,
+            paddingLeft: 16,
+            paddingRight: 40,
+          }}
+          placeholder="Коментувати..."
           onChangeText={setComment}
           value={comment}
         ></TextInput>
         <TouchableOpacity
           activeOpacity={0.8}
-          style={styles.btn}
+          style={styles.addButton}
           onPress={createComment}
         >
-          <Text style={{ color: "#fff" }}>addComment</Text>
+          <Ionicons name="md-arrow-up-circle-sharp" size={34} color="#FF6C00" />
         </TouchableOpacity>
       </View>
     </View>
@@ -118,6 +140,14 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingRight: 16,
     paddingLeft: 16,
+    fontFamily: "Roboto-Regular",
+    fontSize: 18,
+  },
+  textContainer: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.03)",
+    borderRadius: 6,
+    padding: 16,
   },
   input: {
     borderBottomWidth: 1,
@@ -125,13 +155,20 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     paddingBottom: 15,
   },
-  btn: {
-    backgroundColor: "#FF6C00",
-    height: 50,
-    borderRadius: 100,
+
+  addButton: {
+    position: "absolute",
+    top: 10,
+    right: 16,
+    width: 34,
+    height: 34,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 20,
-    marginBottom: 16,
+  },
+  addIcon: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: "#FFF",
   },
 });

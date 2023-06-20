@@ -16,6 +16,7 @@ import React, { useState, useContext } from "react";
 import { KeyboardContext } from "../../Components/KeyboardContext";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
+
 import { Ionicons } from "@expo/vector-icons";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -35,7 +36,6 @@ export const RegistrationScreen = ({ navigation, setIsAuth }) => {
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [state, setState] = useState(initialState);
-  const decodeURI = require("decode-uri-component");
 
   const selectedAvatar = useSelector((state) => state.auth.selectedAvatar);
   console.log(selectedAvatar);
@@ -87,7 +87,6 @@ export const RegistrationScreen = ({ navigation, setIsAuth }) => {
   };
 
   const defaultAvatar = require("../../assets/avatar.jpg");
-  const decodedAvatar = decodeURI(selectedAvatar);
 
   return (
     <KeyboardAvoidingView
@@ -108,7 +107,7 @@ export const RegistrationScreen = ({ navigation, setIsAuth }) => {
           >
             <Image
               style={styles.avatar}
-              source={decodedAvatar ? { uri: decodedAvatar } : defaultAvatar}
+              source={selectedAvatar ? { uri: selectedAvatar } : defaultAvatar}
             />
             <TouchableOpacity
               style={styles.iconAddButton}
