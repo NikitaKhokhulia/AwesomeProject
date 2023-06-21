@@ -20,6 +20,7 @@ export const CreatePostsScreen = ({ navigation }) => {
   const [camera, setCamera] = useState(null);
   const [photo, setPhoto] = useState(null);
   const [namePost, setNamePost] = useState("");
+  const [nameLocations, setNameLocations] = useState("");
   const [location, setLocation] = useState(null);
   const [hasPermission, setHasPermission] = useState(null);
 
@@ -60,6 +61,7 @@ export const CreatePostsScreen = ({ navigation }) => {
     const createPost = await addDoc(collection(db, "posts"), {
       photo,
       namePost,
+      nameLocations,
       location: location.coords,
       userId,
       login,
@@ -125,13 +127,14 @@ export const CreatePostsScreen = ({ navigation }) => {
       )}
       <View>
         <TextInput
-          style={{ ...styles.input, marginBottom: 16 }}
+          style={{ ...styles.input, marginBottom: 16, fontSize: 16 }}
           placeholder="Назва..."
           onChangeText={setNamePost}
         ></TextInput>
         <TextInput
-          style={{ ...styles.input, marginBottom: 32 }}
+          style={{ ...styles.input, marginBottom: 32, fontSize: 16 }}
           placeholder="Місцевість..."
+          onChangeText={setNameLocations}
         ></TextInput>
       </View>
       <TouchableOpacity

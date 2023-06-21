@@ -12,15 +12,18 @@ import {
   TouchableOpacity,
   FlatList,
   Image,
-  Button,
 } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 
 import { db } from "../../firebase/config";
 import { collection, getDocs } from "firebase/firestore";
 import { useSelector } from "react-redux";
-import { FontAwesome } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  FontAwesome,
+  MaterialCommunityIcons,
+  Feather,
+  AntDesign,
+} from "@expo/vector-icons";
 import { authSingOutUser } from "../../Redux/auth/authOperations";
 
 export const DefaultScreenPosts = ({ navigation }) => {
@@ -80,9 +83,26 @@ export const DefaultScreenPosts = ({ navigation }) => {
     });
   }, [navigation]);
 
+  const defaultAvatar = require("../../assets/avatar.jpg");
+
   return (
     <View style={styles.container}>
+      <View
+        style={{ marginTop: 32, flexDirection: "row", alignItems: "center" }}
+      >
+        <View style={{ marginRight: 8 }}>
+          <Image
+            style={{ width: 60, height: 60, borderRadius: 16 }}
+            source={defaultAvatar}
+          />
+        </View>
+        <View>
+          <Text>{login}</Text>
+          <Text>{email}</Text>
+        </View>
+      </View>
       <FlatList
+        style={{ marginTop: 32 }}
         data={posts}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
@@ -97,17 +117,18 @@ export const DefaultScreenPosts = ({ navigation }) => {
               style={{ height: 240, marginBottom: 10, borderRadius: 8 }}
             />
             <View style={styles.nameContainer}>
-              <Text>{item.namePost}</Text>
+              <Text style={{ fontSize: 16, fontFamily: "Roboto-Medium" }}>
+                {item.namePost}
+              </Text>
             </View>
-            <View>
-              <Button
-                title="go to map"
-                onPress={() =>
-                  navigation.navigate("Map", { location: item.location })
-                }
-              />
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
               <TouchableOpacity
-                style={styles.commentContainer}
+                style={{ flexDirection: "row", marginRight: 24 }}
                 onPress={() =>
                   navigation.navigate("Comments", {
                     postId: item.id,
@@ -120,7 +141,44 @@ export const DefaultScreenPosts = ({ navigation }) => {
                   size={24}
                   color="#FF6C00"
                 />
-                <Text style={styles.commentCount}>{item.comments}</Text>
+                <Text style={{ marginLeft: 8, fontSize: 16 }}>
+                  {item.comments}
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={{ flexDirection: "row" }}>
+                <AntDesign name="like2" size={24} color="#FF6C00" />
+                <Text style={{ marginLeft: 8, fontSize: 16 }}></Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                title="go to map"
+                onPress={() =>
+                  navigation.navigate("Map", { location: item.location })
+                }
+                style={{
+                  flexDirection: "row",
+                  alignItems: "flex-end",
+                  marginLeft: "auto",
+                }}
+              >
+                <Feather
+                  name="map-pin"
+                  size={24}
+                  color="black"
+                  style={{
+                    marginRight: 8,
+                  }}
+                />
+                <Text
+                  style={{
+                    borderBottomWidth: 1,
+                    fontSize: 16,
+                    fontFamily: "Roboto-Medium",
+                  }}
+                >
+                  {item.nameLocations ? item.nameLocations : null}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -135,6 +193,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingRight: 16,
     paddingLeft: 16,
+    backgroundColor: "#E5E5E5",
   },
   nameContainer: {
     marginBottom: 10,

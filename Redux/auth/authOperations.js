@@ -50,7 +50,7 @@ export const authSingInUser =
   async (dispatch, getState) => {
     try {
       const user = await signInWithEmailAndPassword(auth, email, password);
-      console.log("user", user);
+      console.log("user", user.user);
     } catch (error) {
       console.log("error:", error);
       console.log("error.message:", error.message);
@@ -67,6 +67,7 @@ export const authStateChangeUser = () => async (dispatch, getState) => {
       const userUpdateProfile = {
         login: user.displayName,
         userId: user.uid,
+        email: user.email,
       };
       dispatch(authStateChange({ stateChange: true }));
       dispatch(updateUserProfile(userUpdateProfile));
