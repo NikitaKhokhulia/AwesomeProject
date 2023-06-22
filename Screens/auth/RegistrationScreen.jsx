@@ -15,7 +15,6 @@ import {
 import React, { useState, useContext } from "react";
 import { KeyboardContext } from "../../Components/KeyboardContext";
 import * as ImagePicker from "expo-image-picker";
-import * as FileSystem from "expo-file-system";
 
 import { Ionicons } from "@expo/vector-icons";
 
@@ -124,7 +123,7 @@ export const RegistrationScreen = ({ navigation, setIsAuth }) => {
           >
             <View style={styles.form}>
               <View style={styles.titleContainer}>
-                <Text style={styles.title}>Регистрация</Text>
+                <Text style={styles.title}>Реєстрація</Text>
               </View>
               <TextInput
                 style={styles.input}
